@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+<head>
+    <style>
+        
+
+.date {
+    font-size: 11px
+}
+
+.comment-text {
+    font-size: 12px
+}
+
+.fs-12 {
+    font-size: 12px
+}
+
+.shadow-none {
+    box-shadow: none
+}
+
+.name {
+    color: #007bff
+}
+
+.cursor:hover {
+    color: blue
+}
+
+.cursor {
+    cursor: pointer
+}
+
+.textarea {
+    resize: none
+}
+    </style>
+</head>
+    <main class="main-container bg-secondary  bg-opacity-25">
+        <section class="content-container">
+            
+
+
+                <div class="posts rounded">
+
+                    <article class="post">
+                        <div class="post__header rounded">
+                            <div class="post__profile">
+                                <a href="{% url 'profile' post.user %}" class="post__avatar">
+                                    <img src="{{ post.user.profile.image.url }}"  alt="User Picture">
+                                </a>
+                                <a href="{% url 'profile' post.user %}" class="post__user">@{{ post.user.username }}</a>
+                            </div>
+
+                            <button class="post__more-options">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <circle cx="6.5" cy="11.5" r="1.5" fill="var(--text-dark)"/>
+                                    <circle cx="12" cy="11.5" r="1.5" fill="var(--text-dark)"/>
+                                    <circle cx="17.5" cy="11.5" r="1.5" fill="var(--text-dark)"/>
+                                </svg>
+                            </button>
+                        </div>
+
+                        <div class="post__content">
+                            <div class="post__medias">
+                                <a href="{% url 'post-details' post.id %}"><img class="post__media img-fluid rounded " src="{{ post.picture.url }}" alt="Post Content" style="width:1000px;height: 600px;"></a><!--                                <img class="post__media" src="{% static 'assets1/insta-clone.png' %}" alt="Post Content">--><!--                                <img class="post__media" src="{% static 'assets1/insta-clone.png' %}" alt="Post Content">-->
+                            </div>
+                        </div>
+
+                        <div class="post__footer">
+                            <div class="post__buttons">
+
+                                <a href="{% url 'like' post.id %}" class="post__button">
+                                      <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" style = "color:black;" fill="currentColor" class="bi bi-arrow-through-heart" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M2.854 15.854A.5.5 0 0 1 2 15.5V14H.5a.5.5 0 0 1-.354-.854l1.5-1.5A.5.5 0 0 1 2 11.5h1.793l.53-.53c-.771-.802-1.328-1.58-1.704-2.32-.798-1.575-.775-2.996-.213-4.092C3.426 2.565 6.18 1.809 8 3.233c1.25-.98 2.944-.928 4.212-.152L13.292 2 12.147.854A.5.5 0 0 1 12.5 0h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.854.354L14 2.707l-1.006 1.006c.236.248.44.531.6.845.562 1.096.585 2.517-.213 4.092-.793 1.563-2.395 3.288-5.105 5.08L8 13.912l-.276-.182a21.86 21.86 0 0 1-2.685-2.062l-.539.54V14a.5.5 0 0 1-.146.354l-1.5 1.5Zm2.893-4.894A20.419 20.419 0 0 0 8 12.71c2.456-1.666 3.827-3.207 4.489-4.512.679-1.34.607-2.42.215-3.185-.817-1.595-3.087-2.054-4.346-.761L8 4.62l-.358-.368c-1.259-1.293-3.53-.834-4.346.761-.392.766-.464 1.845.215 3.185.323.636.815 1.33 1.519 2.065l1.866-1.867a.5.5 0 1 1 .708.708L5.747 10.96Z"/>
+                                      </svg>
+                                </a>
+                                <span class="m-3">|</span>
+                                <a href="{% url 'post-details' post.id %}" class="post__button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35" style="color:black;" fill="currentColor" class="bi bi-chat-heart" viewBox="0 0 16 16">
+                                        <path fill-rule="evenodd" d="M2.965 12.695a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2Zm-.8 3.108.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125ZM8 5.993c1.664-1.711 5.825 1.283 0 5.132-5.825-3.85-1.664-6.843 0-5.132Z"/>
+                                      </svg>
+                                </a>
+                                <span class="m-3">|</span>
+                                <a href="{% url 'directs' post.user.username %}" class="post__button">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="35" height="35"  fill="currentColor" class="bi bi-chat-dots" viewBox="0 0 16 16">
+                                        <path d="M5 8a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm4 0a1 1 0 1 1-2 0 1 1 0 0 1 2 0zm3 1a1 1 0 1 0 0-2 1 1 0 0 0 0 2z"/>
+                                        <path fill="var(--text-dark)" d="m2.165 15.803.02-.004c1.83-.363 2.948-.842 3.468-1.105A9.06 9.06 0 0 0 8 15c4.418 0 8-3.134 8-7s-3.582-7-8-7-8 3.134-8 7c0 1.76.743 3.37 1.97 4.6a10.437 10.437 0 0 1-.524 2.318l-.003.011a10.722 10.722 0 0 1-.244.637c-.079.186.074.394.273.362a21.673 21.673 0 0 0 .693-.125zm.8-3.108a1 1 0 0 0-.287-.801C1.618 10.83 1 9.468 1 8c0-3.192 3.004-6 7-6s7 2.808 7 6c0 3.193-3.004 6-7 6a8.06 8.06 0 0 1-2.088-.272 1 1 0 0 0-.711.074c-.387.196-1.24.57-2.634.893a10.97 10.97 0 0 0 .398-2z"/>
+                                      </svg>
+                                </a>
+                                <span class="m-3">|</span>
+                                <a href="{% url 'favourite' post.id %}"  class="post__button">
+                                    <svg width="35" height="35" style="color:blue;" viewBox="0 0 24 24" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+                                        <path d="M19.875 2H4.125C3.50625 2 3 2.44939 3 3.00481V22.4648C3 23.0202 3.36563 23.1616 3.82125 22.7728L11.5444 16.1986C11.7244 16.0471 12.0225 16.0471 12.2025 16.1936L20.1731 22.7879C20.6287 23.1666 21 23.0202 21 22.4648V3.00481C21 2.44939 20.4994 2 19.875 2ZM19.3125 20.0209L13.3444 15.0827C12.9281 14.7394 12.405 14.5677 11.8763 14.5677C11.3363 14.5677 10.8019 14.7444 10.3856 15.0979L4.6875 19.9502V3.51479H19.3125V20.0209Z" fill="var(--text-dark)" stroke="var(--text-dark)" stroke-width="0.7"/>
+                                    </svg>
+                                </a>
+                            </div>
+
+                            <div class="post__infos">
+                                <div class="post__likes">
+                                    <span>{{post.likes}} <a class="post__name--underline" href="#"> Likes</a></span>
+                                </div>
+
+                                <div class="post__description">
+                                    <span>
+                                        <a class="post__name--underline" href="#"><b>@{{post.user.username}}</b></a><br/><br/>
+                                        <b>Description :</b> {{post.caption}}
+
+                                    </span>
+<!--                                    {{post.caption}}-->
+                                </div>
+                                <p style="font-size: 13px;"><b>Tags : </b>{% for tag in post.tags.all %}
+                                    <a href="{{ tag.get_absolute_url }}" style="text-decoration: none;">
+                                        #{{ tag }}
+                                    </a>
+                                    {% endfor %}
+                                </p>
+                                <span class="post__date-time">{{post.posted}}</span>
+                                </div>
+
+                                <div class="container mt-1">
+                                    <div class="d-flex justify-content-right row">
+                                        <div class="col-md-8 col-lg-8">
+                                            <div class="d-flex flex-column comment-section">
+                                                <form method="POST">
+                                                    {% csrf_token %}
+                                                    <div class="bg-light p-2 row">
+                                                        <!-- {{form|crispy}} -->
+                                                        <div class="d-flex flex-row align-items-start"><img class="rounded-circle" src="{{request.user.profile.image.url}}" width="30" height="30"><span style="width:700px; height:50px;">{{form.body}}</span> <button class="btn btn-primary btn-sm shadow-none"  style="width:100px; height:40px;" type="submit">Comment</button></div>
+                                                        
+                                                    </div>
+                                                </form>
+                                                <br><br>
+                                                <div class="d-flex flex-row">
+                                                    <span class="m-5"></span>
+                                                    <span class="border border-dark m-2 p-4 rounded-pill border-5 d-flex flex-row"><p style="font-size:50px;"><b>{{heart}} </b><span class="m-2">  </span></p> <img src="/media/hrt.png"  alt="User Picture" style="width:80px;height:80px;"></span>
+                                                    <span class="border border-dark m-2 p-4 rounded-pill border-5 d-flex flex-row"><p style="font-size:50px;"><b>{{brokeheart}} </b><span class="m-2">  </span></p> <img src="/media/brokeheart.png"  alt="User Picture" style="width:80px;height:80px;"></span>
+                                                </div>
+                                                <br><br>
+                                                <h1 class="text-center">Comments</h1>
+                                                {% for comment in comments %}
+                                                    <div class="bg-white p-2">
+                                                        <div class="d-flex flex-row user-info"><img class="rounded-circle" src="{{comment.user.profile.image.url}}" width="30" height="30">
+                                                            <a href="{% url 'profile' comment.user %}" style="text-decoration: none;">
+                                                            <div class="d-flex flex-column justify-content-start ml-2"><span class="d-block font-weight-bold name">{{comment.user.profile.first_name}} {{comment.user.profile.last_name}}</span><span class="date text-black-50"> {{comment.date}}</span></div></a>
+                                                            
+                                                        {% if comment.emotion > 0.5 %}
+                                                        <img src="/media/hrt.png"  alt="User Picture" style="width:65px;height:65px;">
+                                                  
+                                                        {% else %}
+                                                        <img src="/media/brokeheart.png"  alt="User Picture" style="width:65px;height:65px;">
+                                                        
+                                                        {% endif %}
+
+
+                                                        </div>
+                                                        <div class="mt-2">
+                                                            <p class="comment-text">{{ comment.body }}</p>
+                                                        </div>
+                                                    </div>
+                                                {% endfor %}
+                                                
+                                                
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+
+                </div>
+            </div>
+        </section>
+    </main>
+
+{% endblock content %}
